@@ -7,8 +7,8 @@ and a list of all original words (with stopwords filtered) with their correspond
 
 Goals:
 
--[X] Provide fuctionality to look up each lemma and provide definitions.
--[ ] Develop a basic UI and test deployment using Django
+- [X] Provide fuctionality to look up each lemma and provide definitions.
+- [ ] Develop a basic UI and test deployment using Django
 
 
 Citations:
