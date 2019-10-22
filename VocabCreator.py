@@ -12,6 +12,9 @@ from cltk.tag.pos import POSTag
 from cltk.lemmatize.latin.backoff import *
 from cltk.semantics.latin.lookup import *
 import string
+import re
+import def_scraper
+
 
 # See available texts
 
@@ -71,10 +74,10 @@ def unique_words(text):
 
 # Alphabetize the list
 
-def alphabetize_words():
-    for word in cae_word_tokens_WO_punc_unique:
-        alphabetized_list.append(word)
-    return alphabetized_list
+# def alphabetize_words():
+#     for word in cae_word_tokens_WO_punc_unique:
+#         alphabetized_list.append(word)
+#     return alphabetized_list
 
 # Show Word frequency
 # cae_word_counter = Counter(cae_word_tokens_WO_punc)
@@ -104,13 +107,35 @@ def get_POS(text):
     return sorted(list(unique_vocab))
 
 
-def get_vocab(text):
+def get_text_vocab(text):
     translator = Synonyms(dictionary='translations', language='latin')
     lemmas = lemmatizer.lemmatize(strip_punctuation(text), return_raw=True)
     translations = translator.lookup(lemmas)
     just_translations = Lemmata.isolate(translations)
-    return sorted(set(just_translations))
+    tr = set(just_translations)
+    roots = []
+    for item in tr:
+        x = item.split('/')
+        word = x[1]
+        word = re.sub("\d+", "", word)
+        roots.append(word)
+    return sorted(set(roots))
 
+WORD_LIST = {}
 
-print(get_POS(cae))
-print(get_vocab(cae))
+def add_word_to_list(word):
+    # check if already in there
+    if word in WORD_LIST:
+        return
+    WORD_LIST[word] = def_scraper.parse_word(word)
+    return
+
+def get_definitions(text):
+    roots = get_text_vocab(text)
+    for item in roots:
+        add_word_to_list(item)
+    return WORD_LIST
+
+definitions = get_definitions(cae)
+for item in definitions.items():
+    print(item)
