@@ -10,5 +10,4 @@ In progress goals:
 Provide fuctionality to look up each lemma and provide definitions.
 Develop a basic UI using Tkinter
 
-
 Kyle P. Johnson et al.. (2014-2019). CLTK: The Classical Language Toolkit. DOI 10.5281/zenodo.0.1.112
